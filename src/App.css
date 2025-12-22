@@ -1,0 +1,40 @@
+#root{
+  min-height: 100vh;
+  background-color: #e2d4ff;
+}
+.inp-btn-wrapper{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.components-wrapper{
+  padding: 24px;
+  width: 50%;
+  background-color: blueviolet;
+  border-radius: 18px;
+  margin-top: 10%;
+}
+.dimension{
+  width: 150px;
+  height: 150px;
+}
+input, button{
+  border-radius: 6px;
+  border: 1px solid gray;
+  
+}
+input:focus{
+  outline: none;
+
+}
+input{
+  width: 100%;
+  padding: 6px;
+}
+button{
+  padding: 10px !important;
+}
+
+svg path{
+  fill:white;
+}
