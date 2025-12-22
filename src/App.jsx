@@ -22,6 +22,11 @@ function App() {
       const response = await fetch(url);
       const data = await response.json();
       // console.log(data);
+      if (data.cod === "404") {
+        setDescription("City not found");
+        setTemp("");
+        return;
+      }
       setDescription(data.weather[0].description);
       setTemp(Math.round(data.main.temp - 273.15));
     } catch (error) {
@@ -39,9 +44,15 @@ function App() {
       <div className="components-wrapper">
         <SearchCity handleSearchClicked={handleSearchClicked}></SearchCity>
         <TiWeatherCloudy className="dimension" />
-        <p>{temp} °C</p>
-        <p>{town}</p>
-        <p>{description}</p>
+        {description === 404 ? (
+          <p>City Not found</p>
+        ) : (
+          <>
+            <p>{temp} °C</p>
+            <p>{town}</p>
+            <p>{description}</p>
+          </>
+        )}
       </div>
     </center>
   );
