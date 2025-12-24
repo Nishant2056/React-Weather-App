@@ -2,41 +2,21 @@ import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import SearchCity from "./components/SearchCity";
 import { TiWeatherCloudy } from "react-icons/ti";
-import { useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
+import WeatherProvider, { WeatherContext } from "./weather-store";
 
-function App() {
-  const [town, setTown] = useState("Kathmandu");
-  const [description, setDescription] = useState("");
-  const [temp, setTemp] = useState("");
+function WeatherApp() {
+  const { town, description, temp, searchCity, error } =
+    useContext(WeatherContext);
 
   const handleSearchClicked = (placeName) => {
-    // console.log(`The entered location is ${placeName}`);
-    setTown(placeName);
-  };
-
-  const search = async (city) => {
-    try {
-      const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${
-        import.meta.env.VITE_APP_ID
-      }`;
-      const response = await fetch(url);
-      const data = await response.json();
-      // console.log(data);
-      if (data.cod === "404") {
-        setDescription("City not found");
-        setTemp("");
-        return;
-      }
-      setDescription(data.weather[0].description);
-      setTemp(Math.round(data.main.temp - 273.15));
-    } catch (error) {
-      console.log(error);
-    }
+    searchCity(placeName);
   };
 
   useEffect(() => {
-    if (town) search(town);
-  }, [town]);
+    if (searchCity) searchCity("Kathmandu");
+  }, [searchCity]);
+
   return (
     <center>
       <h1>Weather App</h1>
@@ -44,7 +24,7 @@ function App() {
       <div className="components-wrapper">
         <SearchCity handleSearchClicked={handleSearchClicked}></SearchCity>
         <TiWeatherCloudy className="dimension" />
-        {description === 404 ? (
+        {error ? (
           <p>City Not found</p>
         ) : (
           <>
@@ -55,6 +35,14 @@ function App() {
         )}
       </div>
     </center>
+  );
+}
+
+function App() {
+  return (
+    <WeatherProvider>
+      <WeatherApp />
+    </WeatherProvider>
   );
 }
 
