@@ -35,9 +35,9 @@ const WeatherProvider = ({ children }) => {
     error: false,
   });
 
-  const searchCity = useCallback(async (city) => {
+  const searchCity = useCallback(async (town) => {
     try {
-      const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${
+      const url = `https://api.openweathermap.org/data/2.5/weather?q=${town}&appid=${
         import.meta.env.VITE_APP_ID
       }`;
       const response = await fetch(url);
@@ -51,7 +51,7 @@ const WeatherProvider = ({ children }) => {
       dispatch({
         type: "SEARCH_SUCCESS",
         payload: {
-          town: city,
+          town: town,
           description: data.weather[0].description,
           temp: Math.round(data.main.temp - 273.15),
         },

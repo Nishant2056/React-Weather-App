@@ -14,7 +14,7 @@ function WeatherApp() {
   };
 
   useEffect(() => {
-    searchCity("Kathmandu");
+    if (searchCity) searchCity("Kathmandu");
   }, [searchCity]);
 
   return (
