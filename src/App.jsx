@@ -3,7 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import SearchCity from "./components/SearchCity";
 import { TiWeatherCloudy } from "react-icons/ti";
 import { useContext, useEffect } from "react";
-import WeatherProvider, { WeatherContext } from "./store/weather-store";
+import WeatherProvider, { WeatherContext } from "./weather-store";
 
 function WeatherApp() {
   const { town, description, temp, searchCity, error } =
