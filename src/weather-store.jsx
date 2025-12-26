@@ -1,4 +1,4 @@
-import { createContext, useReducer, useCallback } from "react";
+import { createContext, useReducer, useCallback, useRef } from "react";
 
 export const WeatherContext = createContext({
   town: "",
@@ -35,13 +35,22 @@ const WeatherProvider = ({ children }) => {
     error: false,
   });
 
+  const abortControllerRef = useRef(null);
+
   const searchCity = useCallback(async (town) => {
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
+    const controller = new AbortController();
+    abortControllerRef.current = controller;
+
     try {
       const url = `https://api.openweathermap.org/data/2.5/weather?q=${town}&appid=${
         import.meta.env.VITE_APP_ID
       }`;
-      const response = await fetch(url);
+      const response = await fetch(url, { signal: controller.signal });
       const data = await response.json();
+      console.log(data);
 
       if (data.cod === "404") {
         dispatch({ type: "SEARCH_ERROR" });
@@ -57,7 +66,9 @@ const WeatherProvider = ({ children }) => {
         },
       });
     } catch (error) {
-      console.log(error);
+      if (error.name !== "AbortError") {
+        console.log(error);
+      }
     }
   }, []);
 
