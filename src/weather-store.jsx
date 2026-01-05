@@ -27,13 +27,15 @@ const weatherReducer = (state, action) => {
   }
 };
 
+const intialState = {
+  town: "Kathmandu",
+  description: "",
+  temp: "",
+  error: false,
+};
+
 const WeatherProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(weatherReducer, {
-    town: "Kathmandu",
-    description: "",
-    temp: "",
-    error: false,
-  });
+  const [state, dispatch] = useReducer(weatherReducer, intialState);
 
   const abortControllerRef = useRef(null);
 
